@@ -1,6 +1,12 @@
 name: deploy-cf-worker
 on: 
   workflow_call:
+    inputs:
+      environment:
+        description: "Choose environment"
+        required: false
+        default: 'prod'
+        type: string
     secrets:
       CF_API_TOKEN:
         required: true
@@ -17,5 +23,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           SECRETS: VERSION
+          environment: ${{ github.event.inputs.environment }}
         env:
           VERSION: ${{ github.sha }}
